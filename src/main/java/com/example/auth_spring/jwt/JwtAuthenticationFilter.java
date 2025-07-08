@@ -24,6 +24,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userService = userService;
     }
 
+    public JwtAuthenticationFilter() {
+        //TODO Auto-generated constructor stub
+    }
+
     // This method is called for every request to check if the user is authenticated
     // It extracts the JWT from the Authorization header, validates it, and sets the authentication in the security context
     @Override

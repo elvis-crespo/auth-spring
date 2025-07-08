@@ -21,7 +21,7 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private int expiration;
 
-    private String generateToken(Authentication auth){
+    public String generateToken(Authentication auth){
         UserDetails mainUser = (UserDetails) auth.getPrincipal();
 
         SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)); 

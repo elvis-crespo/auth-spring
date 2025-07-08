@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.example.auth_spring.entities.User;
 import com.example.auth_spring.repository.UserRepository;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class UserService implements UserDetailsService{
 
     private UserRepository userRepository;
