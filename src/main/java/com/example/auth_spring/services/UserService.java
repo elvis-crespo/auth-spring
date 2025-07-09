@@ -2,21 +2,25 @@ package com.example.auth_spring.services;
 
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.example.auth_spring.entities.User;
 import com.example.auth_spring.repository.UserRepository;
 
 import lombok.NoArgsConstructor;
 
+@Service
 @NoArgsConstructor
 public class UserService implements UserDetailsService{
 
     private UserRepository userRepository;
 
+    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -33,6 +37,14 @@ public class UserService implements UserDetailsService{
             user.getPassword(),
             Collections.singletonList(authority)
         );
+    }
+
+    public boolean existsByUserName(String userName) {
+        return userRepository.existsByUserName(userName);
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
     }
 
 }

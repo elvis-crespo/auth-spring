@@ -7,8 +7,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.auth_spring.dto.NewUserDto;
+import com.example.auth_spring.entities.Role;
+import com.example.auth_spring.entities.User;
+import com.example.auth_spring.enums.RoleList;
 import com.example.auth_spring.jwt.JwtUtil;
 import com.example.auth_spring.repository.RoleRepository;
+
 
 @Service
 public class AuthService {
@@ -34,5 +39,15 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authResult);
         String jwt = jwtUtil.generateToken(authResult);
         return jwt;                
+    }
+
+    public void registerUser(NewUserDto newUserDto) {
+        if(userService.existsByUserName(newUserDto.getUserName())) {
+            throw new RuntimeException("Username already exists");
+        }
+
+        Role roleUser = roleRepository.findByName(RoleList.ROLE_USER).orElseThrow(() -> new RuntimeException("Role not found: " + RoleList.ROLE_USER));
+        User user = new User(newUserDto.getUserName(),passwordEncoder.encode(newUserDto.getPassword()), roleUser);
+        userService.save(user);
     }
 }
